@@ -29,10 +29,10 @@ $(function() {
          * is not empty.
          */
         it('urls are defined', function() {
-            allFeeds.forEach(function(feed) {
+            for (const feed of allFeeds) { 
                 expect(feed.url).toBeDefined();
                 expect(feed.url.length).not.toBe(0);
-            });
+            }
         });
 
         /* Loops through each feed in the allFeeds object and 
@@ -40,10 +40,10 @@ $(function() {
          * is not empty.
          */
         it('names are defined', function() {
-            allFeeds.forEach(function(feed) {
+            for (const feed of allFeeds) {
                 expect(feed.name).toBeDefined();
                 expect(feed.name.length).not.toBe(0);
-            });
+            }
         });
 
     });
@@ -57,7 +57,7 @@ $(function() {
          * performing the hiding/showing of the menu element.
          */
         it('is hidden by default', function() {
-            expect(document.getElementsByClassName('menu-hidden').length).not.toBe(0);
+            expect(document.querySelector('body').classList).toContain('menu-hidden');
         });
 
          /* Test that ensures the menu changes visibility when the menu
@@ -67,14 +67,15 @@ $(function() {
           */
         it('is switching on click', function() {
             document.querySelector('.menu-icon-link').click();
-            expect(document.getElementsByClassName('menu-hidden').length).toBe(0);
+            expect(document.querySelector('body').classList).not.toContain('menu-hidden');
 
             document.querySelector('.menu-icon-link').click();            
-            expect(document.getElementsByClassName('menu-hidden').length).not.toBe(0);
+            expect(document.querySelector('body').classList).toContain('menu-hidden');
         });
 
     });
 
+    
     /* Test suite named "Initial Entries" */
     describe('Initial Entries', function() {
 
@@ -89,7 +90,7 @@ $(function() {
         });
 
         it('exist', function() {
-            expect(document.querySelector('.feed').children.length).not.toBe(0);
+            expect(document.querySelectorAll('.feed .entry').length).not.toBe(0);
         });
 
     });
@@ -107,21 +108,22 @@ $(function() {
         const secondFeedLoad = [];
 
         beforeEach(function(done) {
-            loadFeed(0);
-            Array.from(feeds.children).forEach(function(feed) {
-                firstFeedLoad.push(feed.innerText);
+            loadFeed(0,function() {
+                for (const feed of feeds.children) {
+                    firstFeedLoad.push(feed.innerText);
+                }   
+                loadFeed(1,done);
             });
-            loadFeed(1,done);
         });
        
         it('changes content', function() {
-            Array.from(feeds.children).forEach(function(feed) {
+            for (const feed of feeds.children) {
                 secondFeedLoad.push(feed.innerText);
-            });
+            }
 
-            firstFeedLoad.forEach(function (first, feedPosition) {
-                expect(first).not.toBe(secondFeedLoad[feedPosition]);
-            });
+            for (const [feedPosition, elementInFirst] of firstFeedLoad.entries()) {
+                expect(elementInFirst).not.toBe(secondFeedLoad[feedPosition]);
+            }
         });
 
     });         
