@@ -19,31 +19,27 @@ $(function() {
          * empty.
          */
         it('are defined', function() {
-            expect(allFeeds).toBeDefined();
-            expect(allFeeds.length).not.toBe(0);
+            expect(allFeeds).toBeTruthy();
         });
-
 
         /* Loops through each feed in the allFeeds object
          * and ensures it has a URL defined and that the URL
          * is not empty.
          */
-        it('urls are defined', function() {
-            for (const feed of allFeeds) { 
-                expect(feed.url).toBeDefined();
-                expect(feed.url.length).not.toBe(0);
-            }
+        it('urls are defined', () => {
+            allFeeds.forEach(feed => {
+                expect(feed.url).toBeTruthy();
+            });
         });
 
         /* Loops through each feed in the allFeeds object and 
          * ensures it has a name defined and that the name
          * is not empty.
          */
-        it('names are defined', function() {
-            for (const feed of allFeeds) {
-                expect(feed.name).toBeDefined();
-                expect(feed.name.length).not.toBe(0);
-            }
+        it('names are defined', () => {
+            allFeeds.forEach(feed => {
+                expect(feed.name).toBeTruthy();
+            });
         });
 
     });
@@ -75,7 +71,7 @@ $(function() {
 
     });
 
-    
+
     /* Test suite named "Initial Entries" */
     describe('Initial Entries', function() {
 
